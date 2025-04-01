@@ -1,7 +1,7 @@
 class RentalsController < ApplicationController
   before_action :set_rental, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!
-  before_action :ensure_reader, only: [:new, :create]
+  # before_action :authenticate_user!
+  # before_action :ensure_reader, only: [:new, :create]
   # GET /rentals or /rentals.json
   def index
     @rentals = Rental.all
@@ -74,7 +74,7 @@ class RentalsController < ApplicationController
     params.require(:rental).permit(:book_id, :collection_period, :librarian_id)
   end
 
-  def ensure_reader
-    redirect_to root_path, alert: "Доступ разрешён только читателям" unless current_user.reader?
-  end
+  # def ensure_reader
+  #   redirect_to root_path, alert: "Доступ разрешён только читателям" unless current_user.reader?
+  # end
 end

@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
-  devise_for :users
+  get "main/index"
+  get "main/help"
+  get "main/contacts"
+  get "main/about"
+  # devise_for :users
 
-  root to: "books#index"
+  root to: "main#index"
 
   resources :books, only: [ :index, :show ]
-  resources :rentals, only: [ :new, :create, :index ]
+  resources :rentals, only: [ :new, :create, :index,  :show]
 
   get "help", to: "main#help"
   get "contacts", to: "main#contacts"

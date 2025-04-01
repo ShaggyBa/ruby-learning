@@ -1,6 +1,7 @@
 class MainController < ApplicationController
   def index
     # @items = Item.all.page(params[:page])
+    render "main/index"
   end
 
 

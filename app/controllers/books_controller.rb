@@ -1,6 +1,23 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!
+
+  # before_action :authenticate_user!
+  # layout "custom" # Будет использоваться app/views/layouts/custom.html.erb
+  # layout "custom", only: [:index, :about] # Только для index и about
+  # layout "custom", except: [:contacts, :help]
+  # layout :choose_layout # Переопределение метода выбора layout
+  #
+  #   private
+  #
+  #   def choose_layout
+  #     if controller_name == "sessions"
+  #       "auth" # Использует layouts/auth.html.erb
+  #     else
+  #       "application" # Использует layouts/application.html.erb
+  #     end
+  #   end
+
+
   def index
     @books = Book.order(created_at: :desc).limit(5)
   end
