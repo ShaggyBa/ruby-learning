@@ -18,12 +18,26 @@ users = User.create!([
 
 puts "Создано #{users.count} пользователей"
 
-# Создание книг с использованием Faker
-books = 10.times.map do
+# Список книг с изображениями из assets
+book_list = [
+  { book_name: 'North Woods', author: 'Daniel Mason', image: 'north_woods.jpg' },
+  { book_name: 'Fahrenheit 451', author: 'Ray Bradbury', image: 'fahrenheit_451.jpg' },
+  { book_name: 'Война и мир', author: 'Лев Толстой', image: 'война_и_мир.jpg' },
+  { book_name: 'Темная башня', author: 'Стивен Кинг', image: 'темная_башня.jpg' },
+  { book_name: 'Капитанская дочка', author: 'Александр Пушкин', image: 'капитанская_дочка.jpg' },
+  { book_name: 'Зов Ктулху', author: 'Говард Лавкрафт', image: 'зов_ктулзу.jpg' },
+  { book_name: 'Бесы', author: 'Федор Достоевский', image: 'бесы.jpg' },
+  { book_name: 'Мцыри', author: 'Михаил Лермонтов', image: 'мцыри.jpg' },
+  { book_name: 'Гарри Поттер и Философский камень', author: 'Дж. Коллинз', image: 'гарри_поттер_философский_камень.jpg' },
+  { book_name: 'Зов Предков', author: 'Джек Лондон', image: 'зов_предков.jpg' }
+]
+
+# Создание книг
+books = book_list.map do |book|
   Book.create!(
-    book_name: Faker::Book.title,
-    author: Faker::Book.author,
-    image: Faker::LoremFlickr.image(size: "50x60"),
+    book_name: book[:book_name],
+    author: book[:author],
+    image: "images/#{book[:image]}",
     count: rand(1..10)
   )
 end
@@ -31,10 +45,10 @@ end
 puts "Создано #{books.count} книг"
 
 # Создание аренды книг
-rentals = 5.times.map do
+rentals = books.sample(5).map do |book|
   Rental.create!(
     user: users.sample,
-    book: books.sample,
+    book: book,
     rent_date: Faker::Date.backward(days: 14),
     collection_period: rand(7..30)
   )

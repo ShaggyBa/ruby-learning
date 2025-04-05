@@ -16,7 +16,6 @@ class RentalsTest < ApplicationSystemTestCase
 
     fill_in "Book", with: @rental.book_id
     fill_in "Collection period", with: @rental.collection_period
-    fill_in "Librarian", with: @rental.librarian_id
     fill_in "Rent date", with: @rental.rent_date
     fill_in "User", with: @rental.user_id
     click_on "Create Rental"
@@ -31,8 +30,7 @@ class RentalsTest < ApplicationSystemTestCase
 
     fill_in "Book", with: @rental.book_id
     fill_in "Collection period", with: @rental.collection_period
-    fill_in "Librarian", with: @rental.librarian_id
-    fill_in "Rent date", with: @rental.rent_date
+    fill_in "Rent date", with: @rental.rent_date.to_s
     fill_in "User", with: @rental.user_id
     click_on "Update Rental"
 

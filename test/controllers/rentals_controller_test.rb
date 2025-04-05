@@ -17,7 +17,7 @@ class RentalsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create rental" do
     assert_difference("Rental.count") do
-      post rentals_url, params: { rental: { book_id: @rental.book_id, collection_period: @rental.collection_period, librarian_id: @rental.librarian_id, rent_date: @rental.rent_date, user_id: @rental.user_id } }
+      post rentals_url, params: { rental: { book_id: @rental.book_id, collection_period: @rental.collection_period, rent_date: @rental.rent_date, user_id: @rental.user_id } }
     end
 
     assert_redirected_to rental_url(Rental.last)
@@ -34,7 +34,7 @@ class RentalsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update rental" do
-    patch rental_url(@rental), params: { rental: { book_id: @rental.book_id, collection_period: @rental.collection_period, librarian_id: @rental.librarian_id, rent_date: @rental.rent_date, user_id: @rental.user_id } }
+    patch rental_url(@rental), params: { rental: { book_id: @rental.book_id, collection_period: @rental.collection_period, rent_date: @rental.rent_date, user_id: @rental.user_id } }
     assert_redirected_to rental_url(@rental)
   end
 

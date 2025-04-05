@@ -1,21 +1,20 @@
 class RentalsController < ApplicationController
   before_action :set_rental, only: %i[ show edit update destroy ]
-  # before_action :authenticate_user!
-  # before_action :ensure_reader, only: [:new, :create]
+
   # GET /rentals or /rentals.json
   def index
-    @rentals = Rental.all
+    @users_with_rentals = User.includes(:rentals, rentals: :book).all
   end
 
-  # GET /rentals/1 or /rentals/1.json
+
   def show
+    @user = @rental.user
+    @book = @rental.book
   end
 
   # GET /rentals/new
   def new
     @rental = Rental.new
-    @book = Book.find(params[:book_id])
-    # Дополнительно можно передать текущего пользователя и дату аренды
   end
 
   # GET /rentals/1/edit
@@ -25,17 +24,15 @@ class RentalsController < ApplicationController
   # POST /rentals or /rentals.json
   def create
     @rental = Rental.new(rental_params)
-    @rental.user = current_user
-    @rental.rent_date = Date.today
 
-    if @rental.save
-      format.html { redirect_to @rental, notice: "Rental was successfully created." }
-      format.json { render :show, status: :created, location: @rental }
-      redirect_to rentals_path, notice: "Аренда оформлена"
-    else
-      format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: @rental.errors, status: :unprocessable_entity }
-      render :new
+    respond_to do |format|
+      if @rental.save
+        format.html { redirect_to @rental, notice: "Rental was successfully created." }
+        format.json { render :show, status: :created, location: @rental }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @rental.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -63,18 +60,13 @@ class RentalsController < ApplicationController
   end
 
   private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_rental
+      @rental = Rental.find(params.expect(:id))
+    end
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_rental
-    @rental = Rental.find(params.expect(:id))
-  end
-
-  # Only allow a list of trusted parameters through.
+    # Only allow a list of trusted parameters through.
   def rental_params
-    params.require(:rental).permit(:book_id, :collection_period, :librarian_id)
+    params.require(:rental).permit(:user_id, :book_id, :rent_date, :collection_period)
   end
-
-  # def ensure_reader
-  #   redirect_to root_path, alert: "Доступ разрешён только читателям" unless current_user.reader?
-  # end
 end
