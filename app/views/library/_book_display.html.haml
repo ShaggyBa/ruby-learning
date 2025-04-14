@@ -1,0 +1,11 @@
+%h3 Категория: #{category}
+
+- if book.present?
+  %h4 Название: #{book.book_name}
+  %p Автор: #{book.author}
+  - if book.image.present?
+    = image_tag(book.image, style: "width: 200px;", alt: "Обложка книги")
+  - else
+    %p Нет изображения
+- else
+  %p Нет книг в этой категории

@@ -1,0 +1,11 @@
+%h1 Все книги
+
+= form_with url: library_all_path, method: :get, local: true do |f|
+  = f.select :sort_by, options_for_select([["По алфавиту", "alphabetical"], ["По количеству", "count"]], params[:sort_by])
+  = f.submit "Сортировать", class: "btn btn-info"
+
+%ul
+  - @books.each do |book|
+    %li
+      %strong= book.book_name
+      = " (#{book.author}) — Кол-во: #{book.count}"

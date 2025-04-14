@@ -1,0 +1,10 @@
+%h1 Каталог книг
+.left_controls
+  %turbo-frame{id: "book_display"}
+    = form_with url: library_display_book_path, method: :get, data: { turbo_frame: "book_display" } do |f|
+      = select_tag :category, options_for_select(Book.distinct.pluck(:category)), prompt: 'Выберите категорию'
+      = f.submit "Показать найденные книги", class: 'btn btn-primary'
+      %br/
+      = link_to "Посмотреть все книги", library_all_path, class: "btn btn-outline-primary"
+      %br/
+      = link_to "Аренды читателей", library_users_rentals_path, class: "btn btn-outline-secondary"

@@ -1,12 +1,11 @@
 /*@import "bootstrap";*/
 /*@import "font-awesome";*/
 
-ul {
+header ul, footer ul {
 	list-style-type: none;
 	padding: 0;
 }
-
-li {
+header li, footer li {
 	display: inline;
 	margin-right: 15px;
 }

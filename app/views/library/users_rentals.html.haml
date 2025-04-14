@@ -1,0 +1,6 @@
+%h3 Выберите читателя:
+
+- @users.each do |user|
+  = link_to user.email, library_user_rentals_path(user_id: user.id), data: { turbo_frame: "user_rentals" }
+
+%turbo-frame{id: "user_rentals"}

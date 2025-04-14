@@ -1,0 +1,23 @@
+%p{ style: "color: green" }= notice
+- content_for :title, "Rentals"
+%h1 Список аренд книг
+
+= link_to "Добавить новую аренду", new_rental_path, class: "btn btn-primary"
+%hr
+- @users_with_rentals.each do |user|
+  %div.user
+    %h2= user.email
+
+    - if user.rentals.any?
+      %ul.rentals
+        - user.rentals.each do |rental|
+          %li
+            %h3= rental.book.book_name
+            %pRent_Date= rental.rent_date
+            %pCollection_Period= rental.collection_period
+            = link_to "Показать", rental, class: "btn btn-info"
+            = link_to "Редактировать", edit_rental_path(rental), class: "btn btn-warning"
+            = link_to "Удалить", rental, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger"
+    - else
+      %p Нет аренды для этого пользователя.
+    %hr

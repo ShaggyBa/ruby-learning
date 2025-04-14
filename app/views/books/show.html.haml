@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Book name:
+  = @book.book_name
+%p
+  %b Author:
+  = @book.author
+%p
+  %b Image:
+  = @book.image
+%p
+  %b Count:
+  = @book.count
+
+= link_to 'Edit', edit_book_path(@book)
+\|
+= link_to 'Back', books_path

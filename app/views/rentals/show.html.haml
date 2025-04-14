@@ -1,0 +1,23 @@
+%h1 Rental Information
+
+%p
+  %strong Book:
+  = @book.book_name
+  %br
+  Author: = @book.author
+  %br
+  Available copies: = @book.count
+
+%p
+  %strong User:
+  = @user.email
+  %br
+  Role: = @user.role
+
+%p
+  %strong Rent Date: = @rental.rent_date.strftime("%B %d, %Y")
+  %br
+  Collection Period: = @rental.collection_period
+
+= link_to "Edit Rental", edit_rental_path(@rental), class: "btn btn-warning"
+= link_to "Back to Rentals", rentals_path, class: "btn btn-primary"
