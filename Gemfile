@@ -18,7 +18,7 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 gem 'jquery-rails'
-gem "bootstrap", "~> 5.0.0"
+gem "bootstrap", "~> 5.3.3"
 gem "font-awesome-sass", "~> 6.0.0"
 gem "sassc-rails"
 gem "kaminari"
