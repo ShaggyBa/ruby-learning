@@ -1,6 +1,13 @@
 class LibraryController < ApplicationController
   def index
     @books = Book.all
+
+    @popular_books = Book.most_rented(5)
+
+    @guest = User.find_by(email: 'guest@example.com')
+    @my_rentals = []
+
+    @random_books = Book.order("RANDOM()").limit(10)
   end
 
   def choose_category
@@ -23,12 +30,10 @@ class LibraryController < ApplicationController
 
   def users_rentals
     @users = User.where(role: "reader")
-  end
-
-  def user_rentals
-    user = User.find(params[:user_id])
-    @rentals = user.rentals.includes(:book)
-    render partial: "user_rentals", locals: { user: user, rentals: @rentals }
+    if params[:user_id].present?
+      @user    = User.find(params[:user_id])
+      @rentals = @user.rentals.includes(:book)
+    end
   end
 
   def all_books
@@ -45,4 +50,7 @@ class LibraryController < ApplicationController
   end
 
 end
+
+
+
 

@@ -1,7 +1,0 @@
-%h3 Аренды для #{user.email}:
-
-- if rentals.any?
-  - rentals.each do |rental|
-    %p= "Книга: #{rental.book.book_name}, автор: #{rental.book.author}, дата аренды: #{rental.rent_date}"
-- else
-  %p Нет аренд

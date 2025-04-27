@@ -37,7 +37,7 @@ books = book_list.map do |book|
   Book.create!(
     book_name: book[:book_name],
     author: book[:author],
-    image: "images/#{book[:image]}",
+    image: "/assets/#{book[:image]}",
     count: rand(1..10)
   )
 end
@@ -55,3 +55,22 @@ rentals = books.sample(5).map do |book|
 end
 
 puts "Создано #{rentals.count} записей аренды"
+
+guest = User.find_or_create_by!(email: 'guest@example.com') do |user|
+  user.password = SecureRandom.hex(8)
+  user.role     = 'reader'
+end
+puts "Guest user: #{guest.email} (id=#{guest.id})"
+
+# При необходимости — создаём для гостя пару аренд, если их нет
+if guest.rentals.empty?
+  sample_books = Book.limit(3)  # берём первые 3 книги для примера
+  sample_books.each do |book|
+    guest.rentals.create!(
+      book:              book,
+      rent_date:         Date.today,
+      collection_period: 14
+    )
+  end
+  puts "Добавлено #{guest.rentals.count} аренд для гостевого пользователя"
+end

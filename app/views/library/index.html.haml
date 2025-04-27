@@ -1,4 +1,5 @@
-%h1 Каталог книг
+= link_to'Назад', main_index_path
+%h1 Каталог книг (библиотекарь/администратор)
 .left_controls
   %turbo-frame{id: "book_display"}
     = form_with url: library_display_book_path, method: :get, data: { turbo_frame: "book_display" } do |f|
@@ -8,3 +9,37 @@
       = link_to "Посмотреть все книги", library_all_path, class: "btn btn-outline-primary"
       %br/
       = link_to "Аренды читателей", library_users_rentals_path, class: "btn btn-outline-secondary"
+
+
+%br
+%br
+%br
+%br
+
+%h1 Добро пожаловать в Электронную библиотеку (пользователь)
+%div.section__container
+  %section.library__section
+    %h2 Популярное сейчас
+    - if @popular_books.any?
+      = render partial: "library/book_slider", locals: { books: @popular_books }
+    - else
+      %p Пока у нас нет статистики аренд.
+
+  %section.library__section
+    %h2.mb-2 Мои текущие аренды:
+    -# (гость: #{@guest.email})
+
+  - if @my_rentals.any?
+    %ul.my-rentals
+      - @my_rentals.each do |rental|
+        %li
+          = link_to rental.book.book_name, book_path(rental.book)
+          %small.text-muted  (до #{rental.rent_date + rental.collection_period.days})
+  - else
+    %p У вас нет активных аренд.
+
+
+  %section.library__section
+    %h2 Предлагаем:
+    = render partial: "library/book_slider", locals: { books: @random_books }
+

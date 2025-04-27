@@ -1,6 +1,34 @@
-%h3 Выберите читателя:
+=link_to "Библиотека", library_path
+%h1 Выберите читателя
 
-- @users.each do |user|
-  = link_to user.email, library_user_rentals_path(user_id: user.id), data: { turbo_frame: "user_rentals" }
+%div.rentals__container
+  %button.btn.btn-primary
+    = link_to "Сбросить", library_users_rentals_path, class: "text-light"
 
-%turbo-frame{id: "user_rentals"}
+  - @users.each do |user|
+    %p
+      = link_to user.email, library_users_rentals_path(user_id: user.id),
+      data: { turbo_frame: "rentals_frame" },
+      class: "text-blue-600 hover:underline"
+
+%turbo-frame#rentals_frame
+  - if defined?(@rentals) && @rentals.present?
+    %h2.mb-2 Аренды для: #{@user.email}
+
+    %table.table.table-bordered
+      %thead
+        %tr
+          %th Название книги
+          %th Автор
+          %th Дата аренды
+          %th Срок (дней)
+      %tbody
+        - @rentals.each do |r|
+          %tr
+            %td= r.book.book_name
+            %td= r.book.author
+            %td= l(r.rent_date, format: :short)
+            %td= r.collection_period
+
+  - elsif defined?(@rentals)
+    %p.text-gray-500 У этого читателя нет аренд.

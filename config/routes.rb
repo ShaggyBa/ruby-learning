@@ -9,6 +9,12 @@ Rails.application.routes.draw do
   get "library/user_rentals", to: "library#user_rentals"
   get "library/all", to: "library#all_books"
 
+  namespace :api do
+    get 'library/next_book', to: 'library#next_book'
+    get 'library/prev_book', to: 'library#prev_book'
+    end
+
+
 
   # Адрес для главной страницы рабочей области
   # Пока что оставляем корневой на main#index, потом можно заменить
