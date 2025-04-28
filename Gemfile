@@ -80,3 +80,5 @@ group :test do
   gem "selenium-webdriver"
 end
 
+
+gem "rails-i18n", "~> 8.0"

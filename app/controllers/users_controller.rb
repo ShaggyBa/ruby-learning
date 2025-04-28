@@ -1,12 +1,16 @@
+# app/controllers/users_controller.rb
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ]
+  include SessionsHelper  # чтобы sign_in/sign_out работали
+  require 'digest/sha1'
+  before_action :set_user, only: %i[show edit update destroy]
+  skip_before_action :authenticate_user!, only: %i[new create]
 
-  # GET /users or /users.json
+  # GET /users
   def index
     @users = User.all
   end
 
-  # GET /users/1 or /users/1.json
+  # GET /users/:id
   def show
   end
 
@@ -15,56 +19,55 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  # GET /users/1/edit
+  # POST /users
+  def create
+    @user = User.new(user_params)
+    check_registration_key
+
+    if @user.save
+      sign_in @user
+      redirect_to main_index_path, notice: 'Registration successful!'
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  # GET /users/:id/edit
   def edit
   end
 
-  # POST /users or /users.json
-  def create
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: "User was successfully created." }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /users/1 or /users/1.json
+  # PATCH/PUT /users/:id
   def update
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    if @user.update(user_params)
+      redirect_to @user, notice: 'User was successfully updated.'
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /users/1 or /users/1.json
+  # DELETE /users/:id
   def destroy
     @user.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to users_path, status: :see_other, notice: "User was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to users_path, notice: 'User was successfully destroyed.', status: :see_other
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params.expect(:id))
-    end
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def user_params
-      params.expect(user: [ :email, :password, :role ])
+  def user_params
+    params.require(:user)
+          .permit(:email, :password, :password_confirmation, :registration_key, :avatar)
+  end
+
+  def check_registration_key
+    case @user.registration_key
+    when Rails.application.credentials.dig(:registration_keys, :librarian)
+      @user.role = 'librarian'
+    when Rails.application.credentials.dig(:registration_keys, :admin)
+      @user.role = 'admin'
+    else
+      @user.role = 'user'
     end
+  end
 end
