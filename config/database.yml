@@ -1,22 +1,24 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['DB_HOST'] || 'localhost' %>
-  port: <%= ENV['DB_PORT'] || 5432 %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
 
 development:
   <<: *default
-  database: library_app_development  # Имя базы для разработки
+  database: library_app_development
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host:     <%= ENV['DB_HOST']     || 'localhost' %>
+  port:     <%= ENV['DB_PORT']     || 5432 %>
 
 test:
   <<: *default
-  database: library_app_test  # Имя базы для тестов
+  database: library_app_test
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host:     <%= ENV['DB_HOST']     || 'localhost' %>
+  port:     <%= ENV['DB_PORT']     || 5432 %>
 
 production:
   <<: *default
-  database: library_app_production  # Имя базы для продакшена
-#  username: your_production_user
-#  password: your_production_password
+  url: <%= ENV['DATABASE_URL'] %>
