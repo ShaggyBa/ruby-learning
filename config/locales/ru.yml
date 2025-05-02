@@ -1,0 +1,31 @@
+ru:
+  shared:
+    header:
+      logo_title: "Моя Библиотека"
+      home:       "Главная"
+      books:      "Книги"
+      users:      "Пользователи"
+      rentals:    "Аренды"
+      about:      "О системе"
+      contacts:   "Контакты"
+      help:       "Помощь"
+      sign_in:    "Войти"
+      sign_out:   "Выйти"
+      person:     "Я"
+      profile:    "Моя страница"
+      settings:   "Настройки"
+  sessions:
+    new:
+      title:      "Вход"
+      email:      "Электронная почта"
+      password:   "Пароль"
+      submit:     "Войти"
+  users:
+    new:
+      title:        "Регистрация"
+      name:         "Имя"
+      email:        "Эл. почта"
+      password:     "Пароль"
+      confirmation: "Подтверждение пароля"
+      key:          "Ключ регистрации"
+      submit:       "Создать аккаунт"

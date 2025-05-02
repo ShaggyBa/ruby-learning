@@ -1,0 +1,20 @@
+- return unless @books.any?
+
+.library-slider{
+  "data-controller" => "book",
+  "data-book-category-value" => "random",
+  "data-book-books-value" => "#{@random_books.map(&:id).to_json}"
+}
+
+
+  .book-cover
+    %img{src: books.first.image, alt: books.first.book_name}
+  .book-info
+    %h3.book-title= books.first.book_name
+    %p.book-author= books.first.author
+    %p.book-count= "В наличии: #{books.first.count}"
+
+  .controls
+    %button{type: "button", "data-action" => "click->book#prev"} ← Предыдущая
+    %button{type: "button", "data-action" => "click->book#next"} Следующая →
+
