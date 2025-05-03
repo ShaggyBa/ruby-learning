@@ -22,15 +22,17 @@ test:
 production:
   <<: *default
 
-  # основная база (для ActiveRecord)
   primary:
     url: <%= ENV['DATABASE_URL'] %>
 
-  # для Solid Cable (если используется)
   cable:
-    url: <%= ENV['DATABASE_URL'] %>
+    writing:
+      url: <%= ENV['DATABASE_URL'] %>
+    reading:
+      url: <%= ENV['DATABASE_URL'] %>
 
-  # для Solid Queue
   queue:
-    url: <%= ENV['DATABASE_URL'] %>
-
+    writing:
+      url: <%= ENV['DATABASE_URL'] %>
+    reading:
+      url: <%= ENV['DATABASE_URL'] %>
