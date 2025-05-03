@@ -20,19 +20,7 @@ test:
   port:     <%= ENV['DB_PORT']     || 5432 %>
 
 production:
-  <<: *default
+  adapter: async
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
 
-  primary:
-    url: <%= ENV['DATABASE_URL'] %>
 
-  cable:
-    writing:
-      url: <%= ENV['DATABASE_URL'] %>
-    reading:
-      url: <%= ENV['DATABASE_URL'] %>
-
-  queue:
-    writing:
-      url: <%= ENV['DATABASE_URL'] %>
-    reading:
-      url: <%= ENV['DATABASE_URL'] %>
