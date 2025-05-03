@@ -22,3 +22,9 @@ test:
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
+
+  # Добавлено для Solid Queue
+  queue:
+    <<: *default
+    url: <%= ENV['DATABASE_URL'] %>
+
