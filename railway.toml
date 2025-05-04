@@ -1,0 +1,7 @@
+# railway.toml
+[build]
+builder = "nixpacks"
+
+[build.phases.setup]
+# aptPkgs — пакеты, устанавливаемые через apt-get
+aptPkgs = ["cmake", "make"]
