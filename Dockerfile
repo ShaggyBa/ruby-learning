@@ -25,6 +25,22 @@ ENV RAILS_ENV="production" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development"
 
+FROM ruby:3.4
+
+# Устанавливаем CMake и Make
+RUN apt-get update && \
+    apt-get install -y cmake make && \
+    rm -rf /var/lib/apt/lists/*
+
+# Копируем и устанавливаем зависимости
+WORKDIR /app
+COPY Gemfile* ./
+RUN bundle install
+
+COPY . .
+CMD ["rails", "server", "-b", "0.0.0.0"]
+
+
 # Throw-away build stage to reduce size of final image
 FROM base AS build
 
