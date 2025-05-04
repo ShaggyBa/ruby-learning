@@ -19,7 +19,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 gem 'jquery-rails'
 gem 'hotwire-rails', '~> 0.1.3'
-gem "bootstrap", "~> 5.0.0"
+gem "bootstrap", "~> 5.3.5"
 gem "font-awesome-sass", "~> 6.0.0"
 gem "sassc-rails"
 gem "kaminari"
