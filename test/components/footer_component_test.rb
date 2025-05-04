@@ -8,5 +8,10 @@ class FooterComponentTest < ViewComponent::TestCase
     #   %(<span>Hello, components!</span>),
     #   render_inline(FooterComponent.new(message: "Hello, components!")).css("span").to_html
     # )
+
+    render_inline(FooterComponent.new)
+
+    # Пример проверки: содержащий текст “©” или наличие CSS‑класса
+    assert_selector "footer", text: /©/
   end
 end

@@ -22,7 +22,7 @@ class User < ApplicationRecord
   before_save { self.email = email.downcase }
   before_create :create_remember_token
 
-  ROLES = %w[user librarian admin].freeze
+  ROLES = %w[reader librarian administrator].freeze
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
   validates :email, presence: true,

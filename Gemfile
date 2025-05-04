@@ -78,3 +78,20 @@ end
 
 
 gem "rails-i18n", "~> 8.0"
+
+group :test do
+  gem 'simplecov', require: false
+end
+
+group :development, :test do
+  gem 'rspec-rails', '~> 6.0', require: false
+end
+gem "bundler-audit", "~> 0.9.2"
+
+gem "rubocop", "~> 1.72"
+
+gem "rubocop-rspec", "~> 3.6"
+
+gem "pronto", "~> 0.11.4"
+
+gem "pronto-rubocop", "~> 0.11.6"
