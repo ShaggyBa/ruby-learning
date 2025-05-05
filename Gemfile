@@ -84,7 +84,7 @@ group :test do
 end
 
 group :development, :test do
-  gem 'rspec-rails', '~> 6.0', require: false
+  gem 'rspec-rails', '~> 8.0', require: false
 end
 gem "bundler-audit", "~> 0.9.2"
 
