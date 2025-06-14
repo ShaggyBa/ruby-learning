@@ -1,0 +1,30 @@
+= form_with(model: user, local: true) do |form|
+  - if user.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(user.errors.count, 'ошибка')} при сохранении:"
+      %ul
+        - user.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = form.label :email, 'Email'
+    %br/
+    = form.email_field :email, required: true
+
+  .field
+    = form.label :role, 'Роль пользователя'
+    %br/
+    = form.select :role, [['Читатель', 'user'], ['Библиотекарь', 'librarian'], ['Администратор', 'admin']], {}, required: true
+
+  .field
+    = form.label :password, 'Пароль'
+    %br/
+    = form.password_field :password, class: 'form-control'
+
+  .field
+    = form.label :password_confirmation, 'Подтверждение пароля'
+    %br/
+    = form.password_field :password_confirmation, class: 'form-control'
+
+  .actions
+    = form.submit 'Сохранить'
