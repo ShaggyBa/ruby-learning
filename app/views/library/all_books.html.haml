@@ -4,9 +4,13 @@
   = f.select :sort_by, options_for_select([["По алфавиту", "alphabetical"], ["По количеству", "count"]], params[:sort_by])
   = f.submit "Сортировать", class: "btn btn-info"
 
-%div{:class => "books__container"}
-  - @books.each do |book|
-    %div{:class => "books__element"}
-      %strong= book.book_name
-      %p=" (#{book.author}) — Кол-во: #{book.count}"
-      %img{:src => "/assets/#{book.image}"}
+- if @books.any?
+  %div{:class => "books__container"}
+    - @books.each do |book|
+      %div{:class => "books__element"}
+        %strong= book.book_name
+        %p=" (#{book.author}) — Кол-во: #{book.count}"
+        %img{:src => "#{book.image}"}
+
+- else
+  %p Нет книг в библиотеке.

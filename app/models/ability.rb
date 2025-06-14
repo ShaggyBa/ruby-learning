@@ -1,15 +1,31 @@
+# app/models/ability.rb
 class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new # гость
+    # если не залогинен, считаем читателем (guest)
+    user ||= User.new(role: 'reader')
 
-    if user.role == 'admin'
+    if user.admin?
+      # администратор управляет всем — в том числе пользователями
       can :manage, :all
-    elsif user.role == 'librarian'
-      can :manage, Book # например, библиотекарь может управлять книгами
+
+    elsif user.librarian?
+      # библиотекарь управляет книгами и записями аренды …
+      can :manage, Book
+      can :manage, Rental
+
+      cannot :manage, User
+      cannot :read, User
+
     else
-      can :read, Book
+      # читатель видит каталог и свои аренды
+      cannot :read, Book
+      can :create, Rental
+      cannot :read, Rental, user_id: user.id
+
+      # не имеет никаких прав по пользователям
+      cannot :manage, User
     end
   end
 end

@@ -3,9 +3,9 @@ Rails.application.routes.draw do
     resources :sessions, only: %i[new create destroy]
     # Регистрация
     resources :users, only: %i[new create show edit update destroy]
-
+    get '/register', to: 'users#register'
     # Сессии (логин/логаут)
-    get    '/signin',  to: 'sessions#new',     as: :signin
+    get '/signin', to: 'sessions#new',   as: :signin
     post   '/signin',  to: 'sessions#create'
     delete '/signout', to: 'sessions#destroy', as: :signout
 

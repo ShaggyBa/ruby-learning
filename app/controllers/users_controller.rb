@@ -1,13 +1,17 @@
 # app/controllers/users_controller.rb
 class UsersController < ApplicationController
-  include SessionsHelper  # чтобы sign_in/sign_out работали
-  require 'digest/sha1'
-  before_action :set_user, only: %i[show edit update destroy]
-  skip_before_action :authenticate_user!, only: %i[new create]
+  include SessionsHelper
+
+
+  skip_before_action :authenticate_user!, only: %i[register create]
+  skip_load_and_authorize_resource only: %i[register create]
+
+  before_action :authenticate_user!, except: %i[register create]
+  load_and_authorize_resource except: %i[register create]
 
   # GET /users
   def index
-    @users = User.all
+    @users = User.accessible_by(current_ability).where.not(id: current_user.id)
   end
 
   # GET /users/:id
@@ -15,8 +19,16 @@ class UsersController < ApplicationController
   end
 
   # GET /users/new
+  # Админ создаёт нового пользователя
   def new
     @user = User.new
+    render :new # форма для админа
+  end
+
+  # Обычный пользователь регистрируется
+  def register
+    @user = User.new
+    render :register # форма для обычного пользователя
   end
 
   # POST /users
@@ -25,10 +37,15 @@ class UsersController < ApplicationController
     check_registration_key
 
     if @user.save
-      sign_in @user
-      redirect_to main_index_path, notice: 'Registration successful!'
+      # Если пользователь сам себя регистрирует — авторизуем
+      sign_in(@user) if current_user.nil?
+      redirect_to main_index_path, notice: 'Пользователь создан!'
     else
-      render :new, status: :unprocessable_entity
+      if current_user&.admin?
+        render :new, status: :unprocessable_entity
+      else
+        render :register, status: :unprocessable_entity
+      end
     end
   end
 
@@ -67,7 +84,7 @@ class UsersController < ApplicationController
     when Rails.application.credentials.dig(:registration_keys, :admin)
       @user.role = 'admin'
     else
-      @user.role = 'user'
+      @user.role = 'reader'
     end
   end
 end

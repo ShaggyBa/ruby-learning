@@ -1,0 +1,16 @@
+%h1
+  =t('sessions.new.authorize')
+
+= form_with url: signin_path, method: :post, local: true do |f|
+  .field
+    = f.label :email, t('sessions.new.email')
+    = f.email_field :email, required: true, autofocus: true, class: "form-control"
+  .field
+    = f.label :password, t('sessions.new.password')
+    = f.password_field :password, required: true, class: "form-control"
+  .actions.mt-3.d-flex.justify-content-center
+    = f.submit t('sessions.new.log_in'), class: 'btn btn-primary'
+
+%p.mt-4
+  %span
+  = link_to t('sessions.new.no_account'), register_path, class: 'btn btn-link'

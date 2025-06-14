@@ -1,11 +1,13 @@
 class MainController < ApplicationController
+  skip_before_action :authenticate_user!, only: %i[index]
   def index
-    # @items = Item.all.page(params[:page])
-    render "main/index"
-  end
+    if signed_in? && current_user.reader?
+      return redirect_to library_path
+    end
+    end
 
 
-  def help
+    def help
   end
 
   def contacts

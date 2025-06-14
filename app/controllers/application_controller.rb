@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :ensure_locale_in_path
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_path, alert: exception.message
+  end
+
   private
   def set_locale
     I18n.locale = (params[:locale]&.to_sym if I18n.available_locales.include?(params[:locale]&.to_sym)) \

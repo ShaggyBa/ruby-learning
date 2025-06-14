@@ -20,6 +20,10 @@ en:
       email:      "Email"
       password:   "Password"
       submit:     "Sign In"
+      authorize: "Authorize in system"
+      no_account: "No account?"
+      registration: "Registration"
+      log_in: "Login"
   users:
     new:
       title:        "Sign Up"

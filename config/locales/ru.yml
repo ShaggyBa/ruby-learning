@@ -19,7 +19,9 @@ ru:
       title:      "Вход"
       email:      "Электронная почта"
       password:   "Пароль"
-      submit:     "Войти"
+      log_in: "Войти"
+      no_account: "Нет аккаунта?"
+      authorize: "Авторизация в системе"
   users:
     new:
       title:        "Регистрация"

@@ -3,10 +3,17 @@
     %nav
       %ul
         %li= link_to t('shared.header.home'), root_path
-        %li= link_to t('shared.header.books'), books_path
-        %li= link_to t('shared.header.users'), users_path
-        %li= link_to t('shared.header.rentals'), rentals_path
+        - if can? :read, Book
+          %li= link_to t('shared.header.books'), books_path
+        - if can? :read, User
+          %li= link_to t('shared.header.users'), users_path
+        - if can? :read, Rental
+          %li= link_to t('shared.header.rentals'), rentals_path
       %ul
+        - if current_user
+          %li.text-light= current_user.role
+        - else
+          %li.text-light= "Гость"  # или просто 'Гость'
         %li= link_to t('shared.header.about'), about_path
         %li= link_to t('shared.header.contacts'), contacts_path
         %li= link_to t('shared.header.help'), help_path

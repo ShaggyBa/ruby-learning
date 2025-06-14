@@ -1,4 +1,7 @@
 class RentalsController < ApplicationController
+  before_action :authenticate_user!
+  load_and_authorize_resource
+
   before_action :set_rental, only: %i[ show edit update destroy ]
 
   # GET /rentals or /rentals.json

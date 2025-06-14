@@ -2,6 +2,18 @@ class User < ApplicationRecord
   has_many :rentals
   has_many :books, through: :rentals
 
+  def admin?
+    role == 'admin'
+  end
+
+  def librarian?
+    role == 'librarian'
+  end
+
+  def reader?
+    role == 'reader'
+  end
+
   def self.new_remember_token
     SecureRandom.urlsafe_base64
   end
@@ -22,17 +34,22 @@ class User < ApplicationRecord
   before_save { self.email = email.downcase }
   before_create :create_remember_token
 
-  ROLES = %w[reader librarian administrator].freeze
+  ROLES = %w[reader librarian admin].freeze
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
   validates :email, presence: true,
             uniqueness: { case_sensitive: false },
             format: { with: VALID_EMAIL_REGEX }
-  validates :password, length: { minimum: 6 }, if: -> { password.present? }
+  validates :password, presence: true, confirmation: true, length: { minimum: 6 }, if: :password_required?
+
+  private
+
+  def password_required?
+    new_record? || !password.nil? || !password_confirmation.nil?
+  end
   validates :role, inclusion: { in: ROLES }
 
   # опционально: валидация по формату ключа, если хотите
   # validates :registration_key, inclusion: { in: SOME_KEY_LIST }, allow_blank: true
-
 end
 
